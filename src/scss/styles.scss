@@ -1,0 +1,12 @@
+@import '~material-design-icons/iconfont/material-icons.css';
+@import '~typeface-roboto/index.css';
+@import '~typeface-roboto-mono/index.css';
+@import '~react-perfect-scrollbar/dist/css/styles.css';
+@import 'variables';
+
+body {
+  font-family: $font-roboto;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  color: $font-white;
+}
