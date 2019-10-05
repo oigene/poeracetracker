@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './ControlPlane.scss';
 
@@ -10,34 +11,21 @@ const ControlPlane = () => {
           <span className="logo">poeracetracker</span>
         </div>
         <div className="col text-right">
-          <button
-            title="click to drag window"
-            type="button"
-            className="btn btn-outline-light x-drag"
-          >
-            <i className="material-icons">drag_handle</i>
-          </button>
-          <button
-            title="switch view (ALT+4)"
-            type="button"
+          <Link
+            title="race tracker (ALT+4)"
             className="btn btn-outline-light x-switch"
+            to="/"
           >
-            <i className="material-icons">compare_arrows</i>
-          </button>
-          <button
+            <i className="material-icons">av_timer</i>
+          </Link>
+
+          <Link
             title="settings"
-            type="button"
             className="btn btn-outline-light x-settings"
+            to="/settings"
           >
             <i className="material-icons">settings_application</i>
-          </button>
-          <button
-            title="exit app"
-            type="button"
-            className="btn btn-outline-light x-close"
-          >
-            <i className="material-icons">power_settings_new</i>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

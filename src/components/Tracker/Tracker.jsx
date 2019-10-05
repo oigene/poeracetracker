@@ -6,7 +6,6 @@ import constants from '../../common/constants';
 import { processNewData, resetData } from '../../actions/race.actions';
 import Timer from '../Timer/Timer';
 import Display from '../Display/Display';
-import ControlPlane from '../ControlPlane/ControlPlane';
 
 import './Tracker.scss';
 
@@ -58,7 +57,18 @@ export default function Tracker() {
 
   return (
     <div className="tracker">
-      <Display />
+      {raceId ? (
+        <Display />
+      ) : (
+        <div className="container-fluid help text-center">
+          <div className="row align-items-center justify-content-center">
+            <div className="col">
+              <h2>Press alt+1 to start</h2>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Timer ref={timerRef} />
     </div>
   );

@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
 
-  button {
+  a {
     width: 25px;
     height: 25px;
     padding: 2px;
@@ -20,16 +20,14 @@
 
     border-color: #7d7d7d;
 
+    color: inherit;
+
     &:last-child {
       margin-right: 0;
     }
 
     i {
       font-size: 18px;
-    }
-
-    &.x-drag {
-      -webkit-app-region: drag;
     }
   }
 

@@ -26,7 +26,8 @@
     "no-param-reassign": [
       "error",
       { "props": true, "ignorePropertyModificationsFor": ["draft"] }
-    ]
+    ],
+    "react/forbid-prop-types": "off"
   },
   "parser": "babel-eslint",
   "extends": ["airbnb", "prettier"],

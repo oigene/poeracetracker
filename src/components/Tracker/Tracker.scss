@@ -3,6 +3,19 @@
 .tracker {
   height: 100%;
   user-select: none;
-  background: rgba(0, 0, 0, 0.4);
   padding-bottom: $control-plane-height;
+
+  .help {
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    height: 100%;
+
+    .row {
+      height: 100%;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+  }
 }
