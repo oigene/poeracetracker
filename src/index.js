@@ -9,6 +9,7 @@ import 'bootstrap/scss/bootstrap.scss';
 import './scss/styles.scss';
 
 import Tracker from './components/Tracker/Tracker';
+import ControlPlane from './components/ControlPlane/ControlPlane';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
@@ -17,6 +18,7 @@ function App() {
     // eslint-disable-next-line react/jsx-filename-extension
     <Provider store={store}>
       <Tracker />
+      <ControlPlane />
     </Provider>
   );
 }

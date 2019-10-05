@@ -1,21 +1,13 @@
 import React from 'react';
-import { getMockEntry } from '../../common/mocker';
 
 import './ControlPlane.scss';
 
-export default function ControlPlane({ createEntry }) {
+const ControlPlane = () => {
   return (
     <div className="control-plane container-fluid">
       <div className="row align-items-center">
         <div className="col-4">
-          <span
-            className="logo"
-            onClick={() => {
-              createEntry(getMockEntry());
-            }}
-          >
-            poeracetracker
-          </span>
+          <span className="logo">poeracetracker</span>
         </div>
         <div className="col text-right">
           <button
@@ -50,4 +42,6 @@ export default function ControlPlane({ createEntry }) {
       </div>
     </div>
   );
-}
+};
+
+export default ControlPlane;

@@ -2,7 +2,11 @@
 
 .timer {
   background: rgba(35, 38, 49, 0.6);
-  height: 42px;
+  height: $control-plane-height;
+  position: fixed;
+  bottom: $control-plane-height;
+  left: 0;
+  right: 0;
 
   .time {
     font-family: $font-roboto-mono;

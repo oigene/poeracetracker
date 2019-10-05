@@ -51,10 +51,6 @@ export default function Tracker() {
     dispatch(resetData());
   };
 
-  const createMockEntry = text => {
-    onClientDataReceived(text);
-  };
-
   useIPCEventListener(constants.EVENT_NEW_DATA, onClientDataReceived);
   useIPCEventListener(constants.EVENT_START, onRaceStart);
   useIPCEventListener(constants.EVENT_PAUSE, onRacePause);
@@ -64,7 +60,6 @@ export default function Tracker() {
     <div className="tracker">
       <Display />
       <Timer ref={timerRef} />
-      <ControlPlane createEntry={createMockEntry} />
     </div>
   );
 }
