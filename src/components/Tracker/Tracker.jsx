@@ -16,8 +16,9 @@ export default function Tracker() {
   const timerRef = useRef();
   const dispatch = useDispatch();
 
-  const onClientDataReceived = text => {
+  const onClientDataReceived = (event, text) => {
     const eventId = uuid();
+    console.log(text);
 
     dispatch(
       processNewData({
@@ -30,6 +31,7 @@ export default function Tracker() {
       })
     );
 
+    // TODO: wrong pos here, also useless data gets an id
     setLastEventId(eventId);
   };
 

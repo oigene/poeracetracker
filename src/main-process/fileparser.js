@@ -1,14 +1,21 @@
 const chokidar = require('chokidar');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 class FileParser {
   constructor(filepath) {
-    this.filepath = filepath
-      ? path.win32.normalize(filepath)
-      : path.win32.normalize(
-          'C:/Program Files (x86)/Grinding Gear Games/Path of Exile/logs/Client.txt'
-        );
+    this.os = os.type();
+
+    if (!filepath) {
+      throw new Error('Fileparser Error: No filepath provided.');
+    }
+
+    if (os.type() !== 'Darwin') {
+      this.filepath = path.win32.normalize(filepath);
+    } else {
+      this.filepath = filepath;
+    }
 
     this.currentLine = 0;
     this.watcher = null;
@@ -53,7 +60,7 @@ class FileParser {
       if (onError && typeof onError === 'function') {
         onError(err);
       }
-      console.log('Stream error!');
+      console.log('Stream error!', err);
     });
 
     stream.on('end', () => {

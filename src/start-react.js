@@ -12,9 +12,18 @@ const tryConnection = () => {
   client.connect({ port }, () => {
     client.end();
     if (!startedElectron) {
+      console.log('START ELECTRON BLAAH');
       startedElectron = true;
       const { exec } = childProcess;
-      exec('npm run electron');
+      const mainProcess = exec('npm run electron');
+
+      mainProcess.stdout.on('data', data => {
+        console.log(`stdout: ${data}`);
+      });
+
+      mainProcess.stderr.on('data', data => {
+        console.error(`stderr: ${data}`);
+      });
     }
   });
 };

@@ -3,11 +3,11 @@ const path = require('path');
 const url = require('url');
 const settings = require('electron-settings');
 const FileParser = require('./main-process/fileparser');
+const clientEvents = require('./main-process/clientEvents');
+const mocker = require('./main-process/mocker');
 const constants = require('./common/constants');
 const initGlobalShortcuts = require('./main-process/shortcuts');
 const Database = require('./persistence/Database');
-
-require('./main-process/events');
 
 let mainWindow;
 
@@ -47,7 +47,6 @@ function createWindow() {
   });
 
   mainWindow.on('close', () => {
-    console.log('CLOSEEEE');
     settings.set('bounds', mainWindow.getBounds());
   });
 
@@ -56,8 +55,19 @@ function createWindow() {
   });
 }
 
+// TODO: init on race start
+function initFileparser(logpath) {
+  const fileParser = new FileParser(logpath);
+
+  fileParser.on('data', data => {
+    mainWindow.webContents.send(constants.EVENT_NEW_DATA, data);
+  });
+  // TODO: on error
+  // TODO: client.txt too big
+}
+
 function initApp() {
-  let clientLogPath = settings.get('clientlogpath');
+  const clientLogPath = settings.get('clientlogpath');
   // expose db to global to use it in renderer process
   global.db = new Database(constants.COLLECTION_RACEEVENTS);
 
@@ -69,7 +79,7 @@ function initApp() {
         'In order to parse your current race progression you need to select your Client.txt file located in your Path of Exile installation folder. \nThe regular filepath is C:/Program Files (x86)/Grinding Gear Games/Path of Exile/logs/Client.txt'
     });
 
-    clientLogPath = dialog.showOpenDialogSync({
+    const logPath = dialog.showOpenDialogSync({
       title: 'Select Client.txt file',
       defaultPath: path.win32.normalize(
         'C:/Program Files (x86)/Grinding Gear Games/Path of Exile/logs/Client.txt'
@@ -81,22 +91,19 @@ function initApp() {
       ]
     });
 
-    // set up fileparser
-    // TODO: make it global and call everytime a race starts
-    if (clientLogPath.length > 0) {
-      const fileParser = new FileParser(clientLogPath[0]);
-      fileParser.on('data', data => {
-        mainWindow.webContents.send(constants.EVENT_NEW_DATA, data);
-      });
-      // TODO: on error
-      // TODO: client.txt too big
-
-      settings.set('clientlogpath', clientLogPath[0]);
+    if (logPath.length > 0) {
+      settings.set('clientlogpath', logPath[0]);
+      initFileparser(logPath[0]);
+    } else {
+      app.quit();
     }
+  } else {
+    initFileparser(clientLogPath);
+    createWindow();
+    initGlobalShortcuts(mainWindow);
+    clientEvents.init();
+    mocker.init(); // TODO: exclude on dev
   }
-
-  createWindow();
-  initGlobalShortcuts(mainWindow);
 }
 
 app.on('ready', () => {

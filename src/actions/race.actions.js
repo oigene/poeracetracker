@@ -36,27 +36,33 @@ export const processNewData = ({
           eventType = constants.EVENTTYPE_ZONES;
           eventName = zone;
 
+          const top = await db.getTopTime(eventType, eventName);
+          const avg = await db.getAvgTime(eventType, eventName);
+
           data.zones = {
             [zone]: {
               time,
-              top: await db.getTopTime(eventType, eventName),
-              avg: await db.getAvgTime(eventType, eventName)
+              top: top > 0 ? top : time,
+              avg: avg > 0 ? avg : time
             }
           };
         }
       }
 
       if (text.indexOf('is now level') > -1) {
-        const level = text.match(/.*is now level (.*)./)[1];
+        const level = text.match(/.*is now level (.*)/)[1];
 
         eventType = constants.EVENTTYPE_LEVELS;
         eventName = level;
 
+        const top = await db.getTopTime(eventType, eventName);
+        const avg = await db.getAvgTime(eventType, eventName);
+
         data.levels = {
           [level]: {
             time,
-            top: await db.getTopTime(eventType, eventName),
-            avg: await db.getAvgTime(eventType, eventName)
+            top: top > 0 ? top : time,
+            avg: avg > 0 ? avg : time
           }
         };
       }
@@ -64,9 +70,6 @@ export const processNewData = ({
       if (Object.keys(data).length === 0) {
         return dispatch({ type: USELESS_DATA });
       }
-
-      console.log('in actions');
-      console.log(data);
 
       db.save(
         new RaceEventModel(
