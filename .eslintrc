@@ -25,7 +25,7 @@
     "no-case-declarations": "off",
     "no-param-reassign": [
       "error",
-      { "props": true, "ignorePropertyModificationsFor": ["draft"] }
+      { "props": true, "ignorePropertyModificationsFor": ["draft", "event"] }
     ],
     "react/forbid-prop-types": "off"
   },

@@ -7,10 +7,15 @@ const constants = require('./common/constants');
 const initGlobalShortcuts = require('./main-process/shortcuts');
 const Database = require('./persistence/Database');
 
+require('./main-process/events');
+
 let mainWindow;
 
 function createWindow() {
+  const bounds = settings.get('bounds');
+
   mainWindow = new BrowserWindow({
+    show: false,
     width: 280,
     minWidth: 280,
     height: 217,
@@ -22,6 +27,10 @@ function createWindow() {
     }
   });
 
+  if (bounds) {
+    mainWindow.setBounds(bounds);
+  }
+
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
@@ -30,6 +39,17 @@ function createWindow() {
         slashes: true
       })
   );
+
+  global.mainWindow = mainWindow;
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
+
+  mainWindow.on('close', () => {
+    console.log('CLOSEEEE');
+    settings.set('bounds', mainWindow.getBounds());
+  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;

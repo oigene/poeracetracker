@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { openInstructorFile } from '../../actions/instructor.actions';
 
 import './ControlPlane.scss';
 
@@ -11,6 +12,16 @@ const ControlPlane = () => {
           <span className="logo">poeracetracker</span>
         </div>
         <div className="col text-right">
+          <button
+            title="load instructions"
+            className="btn btn-outline-light x-settings"
+            type="button"
+            onClick={() => {
+              openInstructorFile();
+            }}
+          >
+            <i className="material-icons">assignment</i>
+          </button>
           <Link
             title="race tracker (ALT+4)"
             className="btn btn-outline-light x-switch"

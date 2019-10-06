@@ -51,9 +51,9 @@ export default function Tracker() {
   };
 
   useIPCEventListener(constants.EVENT_NEW_DATA, onClientDataReceived);
-  useIPCEventListener(constants.EVENT_START, onRaceStart);
-  useIPCEventListener(constants.EVENT_PAUSE, onRacePause);
-  useIPCEventListener(constants.EVENT_STOP, onRaceStop);
+  useIPCEventListener(constants.EVENT_TRACKER_START, onRaceStart);
+  useIPCEventListener(constants.EVENT_TRACKER_PAUSE, onRacePause);
+  useIPCEventListener(constants.EVENT_TRACKER_STOP, onRaceStop);
 
   return (
     <div className="tracker">

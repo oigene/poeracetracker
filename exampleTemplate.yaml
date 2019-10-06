@@ -1,0 +1,23 @@
+- trigger: "zones:Lioneye's Watch"
+  text: "Look for MS boots"
+  completion: "zones:The Coast"
+
+- trigger: "zones:Lioneye's Watch"
+  text: "Look for MS boots"
+  completion: "inventory:Movement Speed"
+
+- trigger: ""
+  text: "Get Trans for Jade Amulet"
+  completion: "inventory:Orb of Transmutation|inventory:Jade Amulet"
+
+- trigger: ""
+  text: "Get Jade Amulet"
+  completion: "inventory:Jade Amulet"
+
+- trigger: ""
+  text: "Get Trans for Smoke Mine"
+  completion: "inventory:Orb of Transmutation|inventory:Smoke Mine"
+
+- trigger: ""
+  text: "Get Smoke Mine"
+  completion: "inventory:Smoke Mine"
