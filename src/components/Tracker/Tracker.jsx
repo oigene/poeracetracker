@@ -11,28 +11,20 @@ import './Tracker.scss';
 
 export default function Tracker() {
   const [raceId, setRaceId] = useState(null);
-  const [lastEventId, setLastEventId] = useState('');
-  const currentZones = useSelector(state => state.raceEvents.zones);
+  const events = useSelector(state => state.raceEvents.events);
   const timerRef = useRef();
   const dispatch = useDispatch();
 
   const onClientDataReceived = (event, text) => {
-    const eventId = uuid();
-    console.log(text);
-
+    console.log(events);
     dispatch(
       processNewData({
-        currentZones,
+        events,
         text,
         time: timerRef.current.time,
-        raceId,
-        eventId,
-        lastEventId
+        raceId
       })
     );
-
-    // TODO: wrong pos here, also useless data gets an id
-    setLastEventId(eventId);
   };
 
   const onRaceStart = () => {

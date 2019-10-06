@@ -3,8 +3,7 @@ import produce from 'immer';
 import { ADD_DATA, RESET_DATA } from '../actions/race.actions';
 
 const initialState = {
-  zones: {},
-  levels: {}
+  events: []
 };
 
 export default (state = initialState, action) =>
@@ -13,8 +12,6 @@ export default (state = initialState, action) =>
       case RESET_DATA:
         return initialState;
       case ADD_DATA:
-        const dataType = Object.keys(action.data)[0];
-
-        draft[dataType] = { ...draft[dataType], ...action.data[dataType] };
+        draft.events = [...state.events, action.event];
     }
   });

@@ -9,16 +9,13 @@ import {
   getDiffTimePercent
 } from '../../utils/timeUtils';
 
-const Display = raceEvents => {
+const Display = ({ events }) => {
   const scrollBar = React.createRef();
 
-  // mock data
-  const view = 'zones';
-
   const createMarkup = () => {
-    return Object.keys(raceEvents[view])
-      .map(key => {
-        const { time, top, avg } = raceEvents[view][key];
+    return events
+      .map(event => {
+        const { time, top, avg } = event;
         const diffTop = getFormattedDiffTime(top, time);
         const diffAvg = getFormattedDiffTime(avg, time);
         const percentTop = getDiffTimePercent(top, time);
@@ -39,10 +36,10 @@ const Display = raceEvents => {
         }
 
         return (
-          <div className="row" key={`${time}-${key}`}>
+          <div className="row" key={time}>
             <div className="main-data col-12">
               <span className="time">{getFormattedTime(time, 'hh:mm:ss')}</span>
-              {key}
+              {`${event.type === 'levels' ? 'Level ' : ''}${event.name}`}
             </div>
             <div className="additional-data col-12">
               {`Top: ${getFormattedTime(top, 'hh:mm:ss')}`}
@@ -69,6 +66,6 @@ const Display = raceEvents => {
   );
 };
 
-const mapStateToProps = state => state.raceEvents;
+const mapStateToProps = state => ({ events: state.raceEvents.events });
 
 export default connect(mapStateToProps)(Display);

@@ -8,92 +8,66 @@ export const ADD_DATA = 'ADD_DATA';
 export const RESET_DATA = 'RESET_DATA';
 export const USELESS_DATA = 'USELESS_DATA';
 
-export const processNewData = ({
-  currentZones,
-  text,
-  time,
-  raceId,
-  eventId,
-  lastEventId
-}) => {
+export const processNewData = ({ events, text, time, raceId }) => {
+  console.log(text, time);
   return async dispatch => {
+    console.log(2);
     if (text.length > 0 && time > 0) {
-      const data = {};
-      let eventType;
-      let eventName;
+      const event = {
+        type: '',
+        name: '',
+        time,
+        top: time,
+        avg: time
+      };
 
       if (
         text.indexOf('You have entered') > -1 &&
         text.indexOf('Hideout') === -1
       ) {
         const zone = text.match(/.*You have entered (.*)./)[1];
-
+        // TODO: other checks for same zone names in different acts
         if (zone === 'The Twilight Strand' && text.indexOf('ac1') > -1) {
           return dispatch({ type: RESET_DATA });
         }
 
-        if (!Object.hasOwnProperty.call(currentZones, zone)) {
-          eventType = constants.EVENTTYPE_ZONES;
-          eventName = zone;
-
-          const top = await db.getTopTime(eventType, eventName);
-          const avg = await db.getAvgTime(eventType, eventName);
-
-          data.zones = {
-            [zone]: {
-              time,
-              top: top > 0 ? top : time,
-              avg: avg > 0 ? avg : time
-            }
-          };
-        }
-      }
-
-      if (text.indexOf('is now level') > -1) {
-        const level = text.match(/.*is now level (.*)/)[1];
-
-        eventType = constants.EVENTTYPE_LEVELS;
-        eventName = level;
-
-        const top = await db.getTopTime(eventType, eventName);
-        const avg = await db.getAvgTime(eventType, eventName);
-
-        data.levels = {
-          [level]: {
-            time,
-            top: top > 0 ? top : time,
-            avg: avg > 0 ? avg : time
-          }
-        };
-      }
-
-      if (Object.keys(data).length === 0) {
+        event.type = constants.EVENTTYPE_ZONES;
+        event.name = zone;
+      } else if (text.indexOf('is now level') > -1) {
+        event.type = constants.EVENTTYPE_LEVELS;
+        event.name = text.match(/.*is now level (.*)/)[1];
+      } else {
         return dispatch({ type: USELESS_DATA });
       }
 
-      db.save(
-        new RaceEventModel(
-          raceId,
-          eventType,
-          eventName,
-          time,
-          eventId,
-          lastEventId
-        ),
-        (err, doc) => {
-          console.log('### ERROR: ###');
-          console.log(err);
-          console.log('##############');
-          console.log('### DOC: ###');
-          console.log(doc);
-          console.log('##############');
-        }
-      );
+      if (
+        !events.find(ev => ev.type === event.type && ev.name === event.name)
+      ) {
+        const top = await db.getTopTime(event.type, event.name);
+        const avg = await db.getAvgTime(event.type, event.name);
 
-      return dispatch({
-        type: ADD_DATA,
-        data
-      });
+        event.top = top > 0 ? top : time;
+        event.avg = avg > 0 ? avg : time;
+
+        db.save(
+          new RaceEventModel(raceId, event.type, event.name, time),
+          (err, doc) => {
+            console.log('### ERROR: ###');
+            console.log(err);
+            console.log('##############');
+            console.log('### DOC: ###');
+            console.log(doc);
+            console.log('##############');
+          }
+        );
+
+        return dispatch({
+          type: ADD_DATA,
+          event
+        });
+      }
+
+      return dispatch({ type: USELESS_DATA });
     }
 
     return dispatch({ type: USELESS_DATA });
