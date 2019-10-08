@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uuid from 'uuid/v4';
-import Grid from '@material-ui/core/Grid';
+import { Grid, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useIPCEventListener } from '../../hooks/useEventListener';
 import constants from '../../common/constants';
@@ -9,13 +9,14 @@ import { processNewData, resetData } from '../../actions/race.actions';
 import Timer from '../Timer/Timer';
 import Display from '../Display/Display';
 
-// import './Tracker.scss';
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing(1),
     paddingTop: theme.spacing(2)
+    // height: '100%'
+  },
+  paddingFix: {
+    padding: theme.spacing(1)
   },
   placeholder: {
     textAlign: 'center',
@@ -64,18 +65,19 @@ export default function Tracker() {
   useIPCEventListener(constants.EVENT_TRACKER_STOP, onRaceStop);
 
   return (
-    <div className={classes.root}>
-      {raceId ? (
-        <Display />
-      ) : (
+    <Box display="flex" flexDirection="column" className={classes.root}>
+      <Box flexGrow={1} className={classes.paddingFix}>
         <Grid container spacing={2}>
           <Grid item xs>
-            <h3 className={classes.placeholder}>PRESS ALT+1 TO START</h3>
+            {raceId ? (
+              <Display />
+            ) : (
+              <h3 className={classes.placeholder}>PRESS ALT+1 TO START</h3>
+            )}
           </Grid>
         </Grid>
-      )}
-
+      </Box>
       <Timer ref={timerRef} />
-    </div>
+    </Box>
   );
 }

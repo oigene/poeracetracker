@@ -1,24 +1,40 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-// import './DragHandle.scss';
+import { Icon, Box } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   dragHandle: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
+    padding: '4px 4px 0',
     position: 'fixed',
     top: 0,
     left: 0,
-    right: 0
+    right: 0,
+    '-webkit-app-region': 'drag'
+  },
+  icon: {
+    opacity: 0.5
   }
 }));
 
 const DragHandle = () => {
   const classes = useStyles();
   return (
-    <div className={classes.dragHandle}>
-      <i className="material-icons">drag_handle</i>
-    </div>
+    <Box
+      className={classes.dragHandle}
+      display="flex"
+      justifyContent="flex-end"
+    >
+      <Box pr={1}>
+        <Icon className={classes.icon} fontSize="small">
+          drag_handle
+        </Icon>
+      </Box>
+      <Box>
+        <Icon className={classes.icon} fontSize="small">
+          close
+        </Icon>
+      </Box>
+    </Box>
   );
 };
 

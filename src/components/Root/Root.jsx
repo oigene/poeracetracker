@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import DragHandle from '../DragHandle/DragHandle';
 import Tracker from '../Tracker/Tracker';
@@ -18,9 +18,30 @@ import 'typeface-roboto/index.css';
 import 'typeface-roboto-mono/index.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
+const useStyles = makeStyles({
+  '@global': {
+    html: {
+      height: '100%'
+    },
+    body: {
+      height: '100%'
+    },
+    '#root': {
+      height: '100%',
+      display: 'flex',
+      'flex-direction': 'column'
+    }
+  }
+});
+
 const theme = createMuiTheme({
   palette: {
-    type: 'dark'
+    type: 'dark',
+    primary: {
+      light: '#99e6ff',
+      main: '#62b4f4',
+      dark: '#1e85c1'
+    }
   }
 });
 
@@ -30,6 +51,8 @@ const isInstructorWindow =
   remote.getGlobal('instructorWindow').id === remote.getCurrentWindow().id;
 
 const Root = ({ store }) => {
+  useStyles();
+
   if (isInstructorWindow) {
     return (
       <Provider store={store}>
@@ -43,7 +66,7 @@ const Root = ({ store }) => {
     );
   }
   return (
-    <Provider store={store}>
+    <Provider className="aasd-class" store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline>
           <Router>

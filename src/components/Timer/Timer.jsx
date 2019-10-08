@@ -1,6 +1,13 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 import { getFormattedTime } from '../../utils/timeUtils';
-import './Timer.scss';
+
+const useStyles = makeStyles(() => ({
+  timer: {
+    background: 'rgba(35, 38, 49, 0.6)'
+  }
+}));
 
 let timerInterval = null;
 
@@ -8,6 +15,7 @@ const Timer = (props, ref) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const refreshRate = 10;
+  const classes = useStyles();
 
   useImperativeHandle(ref, () => ({
     time,
@@ -32,12 +40,24 @@ const Timer = (props, ref) => {
   }));
 
   return (
-    <div className="timer container-fluid">
-      <div className="time row align-items-center justify-content-center">
-        <span>{getFormattedTime(time, 'hh:mm:ss')}</span>
-        <span className="ms">{getFormattedTime(time, 'SS')}</span>
-      </div>
-    </div>
+    <Box
+      className={classes.timer}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      p={1}
+      fontFamily="Roboto Mono"
+      color="primary.main"
+      fontWeight="fontWeightBold"
+      letterSpacing={-1}
+    >
+      <Box fontSize={28} mr={1}>
+        {getFormattedTime(time, 'hh:mm:ss')}
+      </Box>
+      <Box mt={1} fontSize={18}>
+        {getFormattedTime(time, 'SS')}
+      </Box>
+    </Box>
   );
 };
 
