@@ -10,13 +10,11 @@ import Timer from '../Timer/Timer';
 import Display from '../Display/Display';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    paddingTop: theme.spacing(2)
-    // height: '100%'
-  },
-  paddingFix: {
-    padding: theme.spacing(1)
+  tracker: {
+    maxHeight: '100%',
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingBottom: 40 + 56 // 40px = control panel, 56px = timer
   },
   placeholder: {
     textAlign: 'center',
@@ -65,18 +63,19 @@ export default function Tracker() {
   useIPCEventListener(constants.EVENT_TRACKER_STOP, onRaceStop);
 
   return (
-    <Box display="flex" flexDirection="column" className={classes.root}>
-      <Box flexGrow={1} className={classes.paddingFix}>
-        <Grid container spacing={2}>
-          <Grid item xs>
-            {raceId ? (
-              <Display />
-            ) : (
-              <h3 className={classes.placeholder}>PRESS ALT+1 TO START</h3>
-            )}
-          </Grid>
-        </Grid>
-      </Box>
+    <Box
+      display="flex"
+      flexGrow={1}
+      alignItems={raceId ? 'flex-start' : 'center'}
+      justifyContent={raceId ? 'flex-start' : 'center'}
+      flexDirection="column"
+      className={classes.tracker}
+    >
+      {raceId ? (
+        <Display />
+      ) : (
+        <h3 className={classes.placeholder}>PRESS ALT+1 TO START</h3>
+      )}
       <Timer ref={timerRef} />
     </Box>
   );

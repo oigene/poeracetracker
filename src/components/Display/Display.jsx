@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import './Display.scss';
 import {
   getFormattedTime,
   getFormattedDiffTime,

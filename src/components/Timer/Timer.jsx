@@ -5,7 +5,11 @@ import { getFormattedTime } from '../../utils/timeUtils';
 
 const useStyles = makeStyles(() => ({
   timer: {
-    background: 'rgba(35, 38, 49, 0.6)'
+    background: 'rgba(35, 38, 49, 0.6)',
+    position: 'fixed',
+    bottom: 40,
+    left: 0,
+    right: 0
   }
 }));
 

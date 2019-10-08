@@ -12,10 +12,10 @@ import Settings from '../Settings/Settings';
 import ControlPlane from '../ControlPlane/ControlPlane';
 import Instructor from '../Instructor/Instructor';
 
-import '../../scss/styles.scss';
 import 'material-design-icons/iconfont/material-icons.css';
-import 'typeface-roboto/index.css';
-import 'typeface-roboto-mono/index.css';
+import 'typeface-roboto';
+import 'typeface-roboto-mono';
+import 'typeface-raleway';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const useStyles = makeStyles({
@@ -42,7 +42,8 @@ const theme = createMuiTheme({
       main: '#62b4f4',
       dark: '#1e85c1'
     }
-  }
+  },
+  typography: {}
 });
 
 // check window id
