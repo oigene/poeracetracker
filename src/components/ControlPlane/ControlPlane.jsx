@@ -11,8 +11,6 @@ import {
 } from '@material-ui/core';
 import { openInstructorFile } from '../../actions/instructor.actions';
 
-import './ControlPlane.scss';
-
 const useStyles = makeStyles(theme => ({
   controlPlane: {
     height: 40,

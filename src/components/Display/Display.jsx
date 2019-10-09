@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Box, IconButton, Icon, Typography } from '@material-ui/core';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   getFormattedTime,
@@ -8,8 +9,23 @@ import {
   getDiffTimePercent
 } from '../../utils/timeUtils';
 
+const useStyles = makeStyles(theme => ({
+  display: {
+    padding: theme.spacing(1),
+    width: '100%',
+    userSelect: 'none'
+  },
+  deleteBtn: {
+    top: -1
+  },
+  deleteBtnIcon: {
+    fontSize: '1rem'
+  }
+}));
+
 const Display = ({ events }) => {
   const scrollBar = React.createRef();
+  const classes = useStyles();
 
   const createMarkup = () => {
     return events
@@ -35,32 +51,78 @@ const Display = ({ events }) => {
         }
 
         return (
-          <div className="row" key={time}>
-            <div className="main-data col-12">
-              <span className="time">{getFormattedTime(time, 'hh:mm:ss')}</span>
-              {`${event.type === 'levels' ? 'Level ' : ''}${event.name}`}
-            </div>
-            <div className="additional-data col-12">
-              {`Top: ${getFormattedTime(top, 'hh:mm:ss')}`}
-              <span className={`score score-${topClassSuffix}`}>
-                {` ${diffTop} ${percentTop > 0 ? '+' : ''}${percentTop}%`}
-              </span>{' '}
-            </div>
-            <div className="additional-data col-12">
-              {`Avg: ${getFormattedTime(avg, 'hh:mm:ss')}`}
-              <span className={`score score-${avgClassSuffix}`}>
-                {` ${diffAvg} ${percentAvg > 0 ? '+' : ''}${percentAvg}%`}
-              </span>{' '}
-            </div>
-          </div>
+          <Grid item xs={12} key={time}>
+            <Typography noWrap component="div">
+              <Box fontSize={14}>
+                <Box
+                  mr={1}
+                  component="span"
+                  fontFamily="Roboto Mono"
+                  fontWeight={600}
+                  letterSpacing={-1}
+                >
+                  {getFormattedTime(time, 'hh:mm:ss')}
+                </Box>
+                <Box mr={1} component="span">
+                  {`${event.type === 'levels' ? 'Level ' : ''}${event.name}`}
+                </Box>
+                <IconButton size="small" className={classes.deleteBtn}>
+                  <Icon className={classes.deleteBtnIcon}>highlight_off</Icon>
+                </IconButton>
+              </Box>
+            </Typography>
+            <Typography component="div" color="textSecondary">
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <Box
+                    mr={1}
+                    fontFamily="Roboto Mono"
+                    fontWeight={600}
+                    letterSpacing={-1}
+                    fontSize={12}
+                  >
+                    {`Top: ${getFormattedTime(top, 'hh:mm:ss')}`}
+                    <Box
+                      mr={1}
+                      component="span"
+                      className={`score score-${topClassSuffix}`}
+                    >
+                      {` ${diffTop} ${percentTop > 0 ? '+' : ''}${percentTop}%`}
+                    </Box>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box
+                    mr={1}
+                    fontFamily="Roboto Mono"
+                    fontWeight={600}
+                    lineHeight="1rem"
+                    letterSpacing={-1}
+                    fontSize={12}
+                  >
+                    {`Avg: ${getFormattedTime(avg, 'hh:mm:ss')}`}
+                    <Box
+                      mr={1}
+                      component="span"
+                      className={`score score-${avgClassSuffix}`}
+                    >
+                      {` ${diffAvg} ${percentAvg > 0 ? '+' : ''}${percentAvg}%`}
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Typography>
+          </Grid>
         );
       })
       .reverse();
   };
 
   return (
-    <PerfectScrollbar className="display container-fluid" ref={scrollBar}>
-      {createMarkup()}
+    <PerfectScrollbar className={classes.display} ref={scrollBar}>
+      <Grid container spacing={1}>
+        {createMarkup()}
+      </Grid>
     </PerfectScrollbar>
   );
 };
