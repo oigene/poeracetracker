@@ -43,7 +43,12 @@ const theme = createMuiTheme({
       dark: '#1e85c1'
     }
   },
-  typography: {}
+  typography: {},
+  colors: {
+    yellow: '#fdd835',
+    red: '#ef5350',
+    green: '#00c853'
+  }
 });
 
 // check window id

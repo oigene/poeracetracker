@@ -19,6 +19,6 @@ module.exports = function initGlobalShortcuts(mainWindow) {
     mainWindow.webContents.send(constants.EVENT_GLOBAL_SHORTCUT);
   });
   globalShortcut.register('Alt+9', () => {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
+    mainWindow.webContents.openDevTools({ mode: 'bottom' });
   });
 };

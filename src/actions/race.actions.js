@@ -9,9 +9,7 @@ export const RESET_DATA = 'RESET_DATA';
 export const USELESS_DATA = 'USELESS_DATA';
 
 export const processNewData = ({ events, text, time, raceId }) => {
-  console.log(text, time);
   return async dispatch => {
-    console.log(2);
     if (text.length > 0 && time > 0) {
       const event = {
         type: '',

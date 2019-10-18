@@ -20,6 +20,15 @@ const useStyles = makeStyles(theme => ({
   },
   deleteBtnIcon: {
     fontSize: '1rem'
+  },
+  scoreYellow: {
+    color: theme.colors.yellow
+  },
+  scoreRed: {
+    color: theme.colors.red
+  },
+  scoreGreen: {
+    color: theme.colors.green
   }
 }));
 
@@ -36,18 +45,18 @@ const Display = ({ events }) => {
         const percentTop = getDiffTimePercent(top, time);
         const percentAvg = getDiffTimePercent(avg, time);
 
-        let topClassSuffix = 'yellow';
-        if (percentTop > 0) {
-          topClassSuffix = 'red';
-        } else if (percentTop < 10) {
-          topClassSuffix = 'green';
+        let topClass = classes.scoreYellow;
+        if (percentTop > 10) {
+          topClass = classes.scoreRed;
+        } else if (percentTop < 0) {
+          topClass = classes.scoreGreen;
         }
 
-        let avgClassSuffix = 'yellow';
-        if (percentAvg > 0) {
-          avgClassSuffix = 'red';
-        } else if (percentAvg < -10) {
-          avgClassSuffix = 'green';
+        let avgClass = classes.scoreYellow;
+        if (percentAvg > 10) {
+          avgClass = classes.scoreRed;
+        } else if (percentAvg < 0) {
+          avgClass = classes.scoreGreen;
         }
 
         return (
@@ -82,11 +91,7 @@ const Display = ({ events }) => {
                     fontSize={12}
                   >
                     {`Top: ${getFormattedTime(top, 'hh:mm:ss')}`}
-                    <Box
-                      mr={1}
-                      component="span"
-                      className={`score score-${topClassSuffix}`}
-                    >
+                    <Box mr={1} component="span" className={topClass}>
                       {` ${diffTop} ${percentTop > 0 ? '+' : ''}${percentTop}%`}
                     </Box>
                   </Box>
@@ -101,11 +106,7 @@ const Display = ({ events }) => {
                     fontSize={12}
                   >
                     {`Avg: ${getFormattedTime(avg, 'hh:mm:ss')}`}
-                    <Box
-                      mr={1}
-                      component="span"
-                      className={`score score-${avgClassSuffix}`}
-                    >
+                    <Box mr={1} component="span" className={avgClass}>
                       {` ${diffAvg} ${percentAvg > 0 ? '+' : ''}${percentAvg}%`}
                     </Box>
                   </Box>

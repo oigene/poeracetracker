@@ -2,6 +2,10 @@ import produce from 'immer';
 
 import { ADD_DATA, RESET_DATA } from '../actions/race.actions';
 
+// events: [
+//   { type: 'zones', name: 'The Ledge', time: 10000, top: 17000, avg: 19000 }
+// ]
+
 const initialState = {
   events: []
 };

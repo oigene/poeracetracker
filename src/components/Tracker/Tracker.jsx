@@ -12,8 +12,6 @@ import Display from '../Display/Display';
 const useStyles = makeStyles(theme => ({
   tracker: {
     maxHeight: '100%',
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
     paddingBottom: 40 + 56 // 40px = control panel, 56px = timer
   },
   placeholder: {
